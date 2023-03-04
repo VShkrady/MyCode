@@ -1,0 +1,23 @@
+.item{
+    position: relative;
+    display: block;
+    padding: 10px;
+    background-color: lightcyan;
+    border: 1px solid black;
+}
+
+.warning-text{
+    color: red;
+}
+
+.success-text{
+    color: green;
+}
+
+.info-text{
+    color: steelblue;
+}
+
+.bold-text{
+    font-weight: bold;
+}

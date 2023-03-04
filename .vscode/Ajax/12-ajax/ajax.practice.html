@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Blogs Get All Ajax</title>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<style></style>
+	</head>
+
+	<body>
+		<script id="myCode">
+			var getBlogs = () => {
+				{
+					var payload = {
+						id: 1988441447,
+						authorId: 1200597383,
+						title: 'Hello',
+						content: 'Comedy',
+					};
+
+					const config = {
+						method: 'GET',
+						url: 'https://api.remotebootcamp.dev/api/blogs',
+						data: payload,
+						crossdomain: true,
+						headers: { 'Content-Type': 'application/json' },
+					};
+
+					return axios(config)
+						.then(function (data) {
+							console.log(data);
+						})
+						.catch(function (data) {
+							console.error(data);
+						});
+				}
+			};
+		</script>
+	</body>
+</html>

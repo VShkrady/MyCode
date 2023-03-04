@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Add A Job</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+      rel="stylesheet"
+    />
+<link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+    <script src="jobsService.js"></script>
+  </head>
+  <body style="background-color: #b1cee5">
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="homepage.html">Home</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class= " collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">People</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Blogs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tech Co.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Events</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" id="loginNav" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="logoutNav"  href="#">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="registerNav" href="#">Register</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     myCode
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </li>
+            </ul>
+    
+        </div>
+    </nav>
+    <form
+      id="formId"
+      action="/api/entities/teams"
+      method="post"
+      class="container mt-5" 
+    >
+      <div class="container">
+         <h3 for="card-tittle">Add a Job</h3>
+         <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputTitle">Title</label>
+              <input type="text" class="form-control" name="Title" id="inputTitle" />
+            </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputDesc">Description</label>
+                <input type="text" class="form-control" name="Description" id="inputDesc" />
+              </div>
+              </div>
+              <div class="form-row">
+               <div class="form-group col-md-6">
+                    <label for="inputSummary">Summary</label>
+                    <input type="text" class="form-control" name="Summary" id="inputSummary" />
+               </div>
+              </div> 
+            <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputPay">Pay</label>
+              <input type="text" class="form-control" name="Pay" id="inputPay" />
+            </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputSlug">Slug</label>
+                  <input type="text" class="form-control" name="Slug" id="inputSlug" />
+                </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputStatusId">StatusId</label>
+                      <input type="text" class="form-control" name="StatusId" id="inputStatusId" />
+                    </div>
+                  </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputTechCoId">Tech Company Id</label>
+                  <input type="text" class="form-control" name="TechCompanyId" id="inputTechCoId" />
+                </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputSkills">Skills</label>
+                      <input type="text" class="form-control" name="Skills" id="inputSkills" />
+                    </div>
+                    </div>
+            <div class="form-group d-none">
+            <label for="id">id</label>
+            <input type="text" class="form-control" id="id" name="id" />
+          </div>
+          <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+    <div class="clone-container">
+      <div class="row"></div>
+    </div>
+      
+      <script id="template" type="text/template">
+        <div class="card card-team" id="0" style="width: 18rem">
+          <img class="card-img-top" src="..." alt="Card image cap"/>
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h6 class="card-subti">Card title</h6>
+            <p class="card-text">
+              Write your own text
+            </p>
+    <a href="#" class="btn btn-primary d-none">Template</a>
+          </div>
+        </div>
+        <div id="messageDiv"></div>
+      </script>
+    <script>
+         function startUp() {
+                wireUpHandlers()
+        //to check if form for creating or updating a record
+          var updateId = window.location.hash.split("#")[1];
+       console.log(updateId, "id");
+       //if an id is present in url pre-populate the form with existing data
+       if(updateId){
+        jobsService.getById(updateId).then(onGetJobsByIdSuccess).catch(onGetJobsByIdError);
+       }
+       }
+    var onGetJobsByIdSuccess = (response) =>{
+      console.log(response);
+        var data = response.data.item;
+        //populates the form
+        $("#inputTitle").val(data.title);
+         $("#inputDesc").val(data.description);
+        $("#inputSummary").val(data.summary);
+         $("#inputPay").val(data.pay);
+         $("#inputSlug").val(data.slug);
+         $("#inputStatusId").val(data.statusId);
+         $("#inputTechCoId").val(data.techCompany.id);
+         $("#inputSkills").val(data.skills[0].name);
+         }
+
+    var onGetJobsByIdError = (error) => {
+          console.error({ error })}
+
+
+    function wireUpHandlers (){
+          // event listeners
+          $("#submit").on("click", formSubmit)}
+
+
+     function formSubmit(event){
+        console.log("event is firing");
+        event.preventDefault();
+        //gather form data
+        var formData = getFormData();
+        var updateId = window.location.hash.split("#")[1];
+          console.log("Update is diring");
+        if (!updateId) {
+            console.log("New Form");
+            jobsService
+              .add(formData)
+              .then(onAddJobsSuccess)
+              .catch(onAddJobsError);
+            } else {
+             console.log("Update");
+            jobsService
+              .update(updateId, formData)
+              .then(onUpdateJobsSuccess)
+              .catch(onUpdateJobsError);
+          }}
+
+      
+
+       //retrieves values from the form and stores it in the formData
+       function getFormData (){
+        console.log("getFormData is firing");
+        var formData = {}
+        formData.title = $("#inputTitle").val();
+        formData.description = $("#inputDesc").val();
+        formData.summary = $("#inputSummary").val();
+        formData.pay = $("#inputPay").val();
+        formData.slug = $("#inputSlug").val();
+        formData.statusId = $("#inputStatusId").val();
+        formData.techCompanyId = $("#inputTechCoId").val();
+        formData.skills = $("#inputSkills").val().split(",");
+        return formData;
+      }
+
+    //success handle if database request passed
+    var onAddJobsSuccess = (response) => {
+          console.log(response);
+          toastr.success("Record added successfully"); 
+        };
+
+        //error handle if database request fails.
+        var onAddJobsError = (error) => {
+          console.error({ error });
+          toastr.error("Error adding record. Please try again.");
+        };
+
+      var onUpdateJobsSuccess = (response) =>{
+        console.log(response);
+      }
+      var onUpdateJobsError = (error) => {
+          console.error({ error });
+        };
+        </script>
+      </body>
+      </html>

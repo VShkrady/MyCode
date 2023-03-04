@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Functions - Control Flow with Shipping</title>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			var usps = function (letters, speed) {
+				if (letters.length > 5) {
+					fedEx(letters, null, 1000);
+				}
+			};
+
+			var mailCarrier = function (letter) {
+				var speed = 'slow';
+				usps([letter], speed);
+			};
+
+			var fedEx = function (letters, boxes, payment) {
+				if (!payment) {
+					return 'Payment Required';
+				} else if (payment < 1000) {
+					return 'Payment Insufficient';
+				} else {
+					return 'OK';
+				}
+			};
+		</script>
+	</body>
+</html>

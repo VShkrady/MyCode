@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Adding Properties to An Object</title>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			var myCar = {
+				make: 'Honda',
+				model: 'Accord',
+				year: 2019,
+				transmission: 'Automatic',
+			};
+
+			var aCar = {};
+
+			function getCar() {
+				return { year: 2019 };
+			}
+
+			function addTransmission() {
+				aCar.transmission = 'Automatic';
+			}
+
+			function addMakeModel() {
+				aCar.make = 'Honda';
+				aCar.model = 'Accord';
+			}
+
+			function getTransmission() {
+				return aCar.transmission;
+			}
+
+			function getModel() {
+				return aCar.model;
+			}
+		</script>
+	</body>
+</html>

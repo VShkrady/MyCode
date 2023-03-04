@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<script src="newEntitiesService.js"></script>
+	</head>
+	<body>
+		<form
+			id="myForm"
+			action="/api/entities/teams"
+			method="post"
+			class="container mt-5"
+		>
+			<div class="form-group">
+				<h5 for="card-tittle">Sport Teams</h5>
+				<label for="name">Name</label>
+				<input type="text" class="form-control" id="name" name="name" />
+			</div>
+			<div class="form-group">
+				<label for="city">City</label>
+				<input type="text" class="form-control" id="city" name="city" />
+			</div>
+			<div class="form-group">
+				<label for="sport">Sport</label>
+				<input type="text" class="form-control" id="sport" name="sport" />
+			</div>
+			<div class="form-group">
+				<label for="image-url">Image URL:</label>
+				<input
+					type="text"
+					class="form-control"
+					id="image-url"
+					name="image-url"
+				/>
+			</div>
+			<div class="form-group d-none">
+				<label for="id">id</label>
+				<input type="text" class="form-control" id="id" name="id" />
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-primary" id="cmdSubmit">
+					Submit
+				</button>
+				<button type="button" class="btn btn-danger" id="cmdClear">
+					Clear
+				</button>
+				<button type="button" class="btn btn-success" id="cmdRenderAll">
+					Render All
+				</button>
+			</div>
+		</form>
+
+		<div class="clone-container">
+			<div class="row"></div>
+		</div>
+
+		<script id="template" type="text/template">
+			<div class="card card-team" style="width: 18rem">
+			  <img class="card-img-top" src="..." alt="Card image cap"/>
+			  <div class="card-body">
+			    <h5 class="card-title">Card title</h5>
+			    <h6 class="card-subti">Card title</h6>
+			    <p class="card-text">
+			      Write your own text
+			    </p>
+
+
+			    <a href="#" class="btn btn-primary d-none">Template</a>
+			  </div>
+			</div>
+		</script>
+
+		<script id="myCode">
+			function startUp() {
+				// event listeners
+				$('#cmdSubmit').on('click', createSubmit);
+				$('#cmdRenderAll').on('click', createRenderAll);
+				$('#cmdClear').on('click', createClear);
+
+				//prevents page from refreshing, takes submit form data and add's form data to database
+				function createSubmit(event) {
+					event.preventDefault();
+					//get the form element and pass it to the formData
+					var form = $('#cmdSubmit').closest('form')[0];
+					var formData = getFormData();
+					createFormData(formData);
+				}
+				//retrieves values from the form and stores it in the formData
+				function getFormData() {
+					var formData = {};
+					formData.team = $('#name').val();
+					formData.sport = $('#sport').val();
+					formData.city = $('#city').val();
+					formData.imageUrl = $('#image-url').val();
+					formData.id = $('#id').val();
+					return formData;
+				}
+
+				//create a new form or update
+				function createFormData(data) {
+					console.log('this is what i want to see', data);
+					if (data.id) {
+						console.log('Update');
+						newEntitiesService
+							.update(data.id, data)
+							.then(onUpdateNewEntitiesSuccess)
+							.catch(onUpdateNewEntitiesError);
+						createClear();
+					} else {
+						console.log('New Form');
+						newEntitiesService
+							.add(data)
+							.then(onAddNewEntitiesSuccess)
+							.catch(onAddNewEntitiesError);
+						createClear();
+					}
+				}
+				//success handle if database request passed
+				var onAddNewEntitiesSuccess = (response) => {
+					console.log(response);
+				};
+
+				//error handle if database request fails.
+				var onAddNewEntitiesError = (error) => {
+					console.error({ error });
+				};
+				//edit information for the each card and update it
+				var onUpdateNewEntitiesSuccess = (response) => {
+					console.log('Update Success');
+					console.log(response);
+					let targetCardId = response.id;
+					console.log('this is tagetCard', targetCardId);
+					$('#' + targetCardId)
+						.find('img')
+						.attr('src', response.imageUrl);
+					$('#' + targetCardId)
+						.find('.card-subti')
+						.text(response.team);
+					$('#' + targetCardId)
+						.find('.card-title')
+						.text(response.sport);
+					$('#' + targetCardId)
+						.find('.card-text')
+						.text(response.city);
+				};
+
+				//error handle if database request fails.
+				var onUpdateNewEntitiesError = (error) => {
+					console.log({ error });
+				};
+
+				//getAll method takes all entites from the dattabase and passess them to renderEntities function
+				function createRenderAll() {
+					newEntitiesService
+						.getAll()
+						.then(onGetNewEntitiesSuccess)
+						.catch(onGetNewEntitiesError);
+				}
+
+				//success handle if database request passed
+				var onGetNewEntitiesSuccess = (response) => {
+					console.log({ response });
+					renderEntities(response.data.items);
+				};
+
+				//error handle if database request fails.
+				var onGetNewEntitiesError = (error) => {
+					console.error({ error });
+				};
+
+				//clears form inputs and clear id field so to know that it's a new entity
+				function createClear() {
+					let inputs = $('#myForm input');
+					inputs.val('');
+					$('#id').val('');
+				}
+			}
+
+			//creates a clone of the template and returns it
+			function getTemplate() {
+				var template = $('#template').html();
+				var clone = $(template).clone();
+				return clone;
+			}
+
+			//using map method creates a template for each entity
+			function renderEntities(entities) {
+				function mapEntity(entity) {
+					console.log('mapping is executing');
+
+					let template = getTemplate();
+					template.find('.card-subti').text(entity.team);
+					template.find('.card-title').text(entity.sport);
+					template.find('.card-text').text(entity.city);
+					template.find('.card-img-top').attr('src', entity.imageUrl);
+					template.attr('id', entity.id);
+
+					const deleteButton = $('<button>')
+						.attr('type', 'button')
+						.addClass('btn btn-danger')
+						.attr('data-id', entity.id)
+						.text('Delete');
+
+					const editButton = $('<button>')
+						.attr('type', 'button')
+						.addClass('btn btn-warning')
+						.attr('data-id', entity.id)
+						.text('Edit');
+
+					// add the buttons to the template
+					template.find('.card-body').append(deleteButton, editButton);
+
+					//event listeners for the delete and edit buttons
+					deleteButton.on('click', deleteData);
+					editButton.on('click', editData);
+					// add the template to the DOM
+					$('.clone-container').append(template);
+				}
+				var newRenderEntities = entities.map(mapEntity);
+			}
+
+			//'this' selects the element that triggered an event and retrieves the value of "data-id" attribute
+			function deleteData() {
+				let entityId = $(this).attr('data-id');
+				newEntitiesService
+					.deleteById(entityId)
+					.then(onDeleteNewEntitiesSuccess)
+					.catch(onDeleteNewEntitiesError);
+				//removes it from the server and the DOM
+				$(this).closest('.card').remove();
+			}
+
+			//delete handle success deletes from the DOM
+
+			var onDeleteNewEntitiesSuccess = (id) => {
+				console.log(id, 'onDeleteNewEntitiesSuccess');
+			};
+
+			var onDeleteNewEntitiesError = (error) => {
+				console.error(error);
+			};
+
+			//get entity from the database
+			function editData() {
+				//console.log("Update is executing");
+				let entityId = $(this).closest('.card-team');
+				console.log(entityId);
+				$('#name').val(
+					$(this).closest('.card-team').find('.card-subti').text()
+				);
+				$('#id').val($(this).attr('data-id'));
+				$('#sport').val(
+					$(this).closest('.card-team').find('.card-title').text()
+				);
+				$('#city').val($(this).closest('.card-team').find('.card-text').text());
+				$('#image-url').val(
+					$(this).closest('.card-team').find('img').attr('src')
+				);
+			}
+
+			var onGetNewEntitiesSuccess = (response) => {
+				console.log(response);
+				//populate the form with entity data
+
+				$('#name').val(response.data.item.team);
+				$('#sport').val(response.data.item.sport);
+				$('#city').val(response.data.item.city);
+				$('#image-url').val(response.data.item.imageUrl);
+				$('#id').text(response.data.item.id);
+			};
+
+			//error handle if database request fails.
+			var onGetNewEntitiesError = (err) => {
+				console.error({ error: err });
+			};
+		</script>
+	</body>
+</html>

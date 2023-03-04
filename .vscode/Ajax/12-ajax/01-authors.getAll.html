@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Authors Get All Ajax</title>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<style></style>
+	</head>
+
+	<body class="myCode" data-ins="pw-12-01_authors_getAll" data-ins-css="false">
+		<nav
+			class="do-not-remove navbar navbar-expand-md navbar-dark bg-dark codeAcademy"
+		></nav>
+		<div class="container ajax codeAcademy"></div>
+		<footer></footer>
+
+		<script id="myCode">
+			var userLogin = () => {
+				//change these credentials to match the tenantId you have been using
+				//once you have confirmed that you can log in with the given credential.
+				//the bug will prompt you to do so before you can clear all bugs.
+				var payload = {
+					email: 'jack123@yahoo.com',
+					password: 'password1!',
+					tenantId: 'Developer',
+				};
+				const config = {
+					method: 'POST',
+					url: 'https://api.remotebootcamp.dev/api/users/login',
+					data: payload,
+					crossdomain: true,
+					headers: { 'Content-Type': 'application/json' },
+				};
+
+				return axios(config)
+					.then(function (data) {
+						console.log(data);
+					})
+					.catch(function (data) {
+						console.error(data);
+					});
+			};
+
+			var getAuthors = () => {
+				const config = {
+					method: 'GET',
+					url: 'https://api.remotebootcamp.dev/api/authors',
+					crossdomain: true,
+					headers: { 'Content-Type': 'application/json' },
+				};
+
+				return axios(config)
+					.then(function (response) {
+						console.log(response.data);
+					})
+					.catch(function (response) {
+						console.error(response);
+					});
+			};
+		</script>
+	</body>
+</html>

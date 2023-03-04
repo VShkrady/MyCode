@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://unpkg.com/axios@0.25/dist/axios.js"></script>
+		<script src="usersService.js"></script>
+		<script src="blogsService.js"></script>
+		<style></style>
+	</head>
+
+	<body>
+		<script id="myCode">
+			var testLoginPayload = {
+				firstName: 'userFirstName',
+				lastName: 'userLastName',
+				age: 30,
+				salary: 200000,
+			};
+			var authorId = 1200597383;
+			var payload = {
+				id: 1988441447,
+				authorId: 1200597383,
+				title: 'Hello',
+				content: 'Comedy',
+			};
+
+			function startUp() {
+				blogsService.getAll().then(onGetBlogsSuccess).catch(onGetBlogsError);
+
+				var payload = {
+					firstName: 'Jackie',
+					lastName: 'Chan',
+					age: 30,
+					salary: 200000,
+				};
+
+				blogsService.add().then(onAddBlogSuccess).catch(onAddBlogError);
+			}
+
+			var onAddBlogSuccess = (response) => {
+				console.log(response.data.item);
+			};
+
+			var onAddBlogError = (error) => {
+				console.error({ error });
+			};
+
+			var onGetBlogsSuccess = (response) => {
+				console.log({ blogs: response.data.items });
+			};
+
+			var onGetBlogsError = (error) => {
+				console.error({ error });
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Object Graph Viewer</title>
+		<style>
+			aside.offsidebar {
+				display: none !important;
+			}
+
+			svg {
+				border: solid;
+			}
+		</style>
+	</head>
+	<body>
+		<main
+			role="main"
+			class="graph-container align-middle d-flex justify-content-center"
+			style="height: 100%"
+			id="objGraph"
+		></main>
+
+		<script id="myCode">
+			var state = {
+				currentUser: {
+					firstName: 'Mickey',
+					lastName: 'Mouse',
+					friends: [{ name: 'Minnie' }, { name: 'Pluto' }],
+					age: 80,
+				},
+				other: { prop: 'Same' },
+				somethingElse: 'Same',
+			};
+
+			var firstPass = state;
+			var secondPass, thirdPass, forthPass;
+
+			function cycleTwo() {
+				secondPass = { ...state };
+
+				secondPass.currentUser = { ...state.currentUser };
+
+				secondPass.currentUser.firstName = 'Michael';
+				secondPass.currentUser.friends.push({ name: 'Goofy' });
+
+				renderObjects({ firstPass, secondPass, thirdPass, forthPass });
+			}
+
+			function cycleThree() {
+				secondPass = { ...state };
+
+				secondPass.currentUser = { ...state.currentUser };
+
+				secondPass.currentUser.firstName = 'Michael';
+				secondPass.currentUser.friends = [
+					...state.currentUser.friends,
+					{ name: 'Goofy' },
+				];
+
+				renderObjects({ firstPass, secondPass, thirdPass, forthPass });
+			}
+
+			function cycleFour() {}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Populating Arrays with Data</title>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			var getNewTeam = function () {
+				return [
+					{
+						id: 123,
+						firstName: 'John',
+						lastName: 'Smith',
+						email: 'john.smith@yahoo.com',
+						gender: 'Male',
+						avatar:
+							'https://www.shutterstock.com/image-photo/young-handsome-man-beard-wearing-260nw-1768126784.jpg',
+					},
+					{
+						id: 12345,
+						firstName: 'Sue',
+						lastName: 'Shaq',
+						email: 'sue.shaq@yahoo.com',
+						gender: 'Female',
+						avatar: 'https://tinyurl.com/2t628uj3',
+					},
+					{
+						id: 54321,
+						firstName: 'Men',
+						lastName: 'Great',
+						email: 'great.men@yahoo.com',
+						gender: 'Male',
+						avatar: 'https://tinyurl.com/5am2h388',
+					},
+				];
+			};
+
+			var addPerson = function (anArray) {
+				var newTeamMember = {
+					id: 12,
+					firstName: 'Pete',
+					lastName: 'OK',
+					email: 'pete.ok@yahoo.com',
+					gender: 'Male',
+					avatar:
+						'https://www.shutterstock.com/image-photo/headshot-portrait-happy-millennial-man-260nw-1548802709.jpg',
+				};
+
+				anArray.push(newTeamMember);
+				return anArray;
+			};
+			var anArray = getNewTeam();
+			var updatedArray = addPerson(anArray);
+
+			var removePerson = function (indexOfPerson, anArray) {
+				if (indexOfPerson >= 0 && indexOfPerson < anArray.length) {
+					var removedPerson = anArray.splice(indexOfPerson, 1);
+					return removedPerson[0];
+				} else {
+					return null;
+				}
+			};
+			var removedPerson = removePerson(anArray, 0);
+
+			var logNames = function (anArray) {
+				for (var i = 0; i < anArray.length; i++) {
+					var teamMember = anArray[i];
+					console.log(teamMember.firstName);
+				}
+			};
+			logNames(anArray);
+
+			var findFriend = function (people) {
+				var friends = [];
+				for (var i = 0; i < people.length; i++) {
+					var person = people[i];
+					if (person.lastName === 'Friend') {
+						friends.push(person);
+					}
+				}
+				return friends;
+			};
+		</script>
+	</body>
+</html>

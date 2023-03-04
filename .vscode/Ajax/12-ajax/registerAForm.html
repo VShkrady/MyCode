@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Register Form</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+      rel="stylesheet" 
+    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+    <script src= "usersService.js"></script>
+    
+  </head>
+  <body style="background-color: #417dab">
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="homepage.html">Home</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class= " collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">People</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Blogs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tech Co.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Events</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" id="loginNav" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="logoutNav"  href="#">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="registerNav" href="#">Register</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    My Code
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </li>
+            </ul>
+    
+        </div>
+    </nav>
+    <form
+      id="myForm"
+      action="/api/entities/teams"
+      method="post"
+      class="container mt-5" 
+    >
+      <div class="container">
+         <h5 for="card-tittle">Register a New Membership</h5>
+         <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputFirstName">First Name</label>
+            <input type="text" class="form-control" id="inputFirstName" />
+          </div>
+          </div>
+          <div class="form-row">
+          <div class="form-froup col-md-6">
+            <label for="inputLastName">Last Name</label>
+            <input type="text" class="form-control" id="inputLastName" />
+          </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" />
+          </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputPassword">Password</label>
+              <input type="password" class="form-control" id="inputPassword" />
+            </div>
+          </div>
+            <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputPasswordConfirm">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPasswordConfirm"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputAvatarUrl">Avatar URL</label>
+            <input type="text" class="form-control" id="inputAvatarUrl" />
+          </div>
+          </div>
+          <input type="hidden" id="inputTenantId" value="hardcoded_value_id" />
+          <button type="button" class="btn btn-primary" id="submit">Sign Up</button>
+        </div>
+      </div>
+    </form>
+    <script>
+
+      function startUp(){
+        wiredHandlers()
+        }
+       //prevents page from refreshing,takes submit form data and add's form data to database
+      function createSubmit(event){
+        event.preventDefault();
+        //get the form data
+        var formData = getFormData();
+        createFormData(formData)}
+
+        //retrieves values from the form and stores it in the formData
+      function getFormData (){
+        var formData = {}
+        formData.firstName = $("#inputFirstName").val();
+        formData.lastName = $("#inputLastName").val();
+        formData.email = $("#inputEmail").val();
+        formData.password = $("#inputPassword").val();
+        formData.passwordConfirm = $("#inputPasswordConfirm").val();
+        formData.avatarUrl = $("#inputAvatarUrl").val();
+        formData.tenantId = "U04CVA74QTU";      //$("#inputTenantId").val();
+        return formData;
+      }
+      //create a new form 
+   function createFormData(data){
+   
+    console.log("New Form");
+    registerFormService.add(data).then(onAddRegisterFormSuccess).catch(onAddRegisterFormError);
+    
+   
+   } 
+      //success handle if database request passed
+      var onAddRegisterFormSuccess = (response) =>{
+        console.log(response);
+        toastr.success("Registration Success. You have registered successfully.");
+            }
+
+      //error handle if database request fails.
+      var onAddRegisterFormError = (error) => {
+        console.error({ error });
+        toastr.error("Registration failed. Please try again");
+      }
+
+      function wiredHandlers() {
+
+$("#submit").on("click", createSubmit);
+$("#logoutNav").on("click", function () {
+  window.location.href = "loginForm.html";
+});
+$("#registerNav").on("click", function () {
+  window.location.href = "registerAForm.html";
+});
+$("#loginNav").on("click", function () {
+  window.location.href = "loginForm.html";
+});
+}
+  </script>
+  </body>
+</html>

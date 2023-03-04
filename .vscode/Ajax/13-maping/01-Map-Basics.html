@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mapping Basics - Numbers & Strings</title>
+		<style>
+			footer {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<main
+			role="main"
+			class="graph-container align-middle d-flex justify-content-center"
+			style="height: 100%"
+			id="objGraph"
+		></main>
+		<script id="myCode">
+			var exampleTarget = { myAge: 85 };
+			var ages = [20, 80, 65, 15, 43, 21, 30, 22, 44, 18, 31, 89];
+
+			var testAge = mapAge(25);
+			var newAges = ages.map(mapAge);
+
+			function mapAge(anInt) {
+				//first param that will be the object you want to map
+				console.log(anInt);
+				let result = {};
+				// result.myAge = anInt;
+				return result;
+			}
+
+			var names = [
+				'Aled Ratcliffe',
+				'Cassie Gibbons',
+				'Ephraim Holman',
+				'Asim Ayala',
+				'Johnny Villegas',
+				'Kanye Bond',
+				'Leoni Akhtar',
+				'Duane Velasquez',
+				'Elana Stark',
+				'Gracie-Leigh Hutchings',
+			];
+
+			var exampleNameObj = { displayName: 'Ephraim Holman' };
+			var testPerson = mapSimpleName('John Smith');
+			var newNames = names.map(mapSimpleName);
+
+			function mapSimpleName(personName) {
+				let result = { displayName: personName };
+				return result;
+			}
+
+			var longName = [
+				'Mari David',
+				'Bruce Silva',
+				'Rowena Dowling',
+				'Nicolle Marquez',
+				'Jaidon Kidd',
+				'Alicia Huff',
+				'Yahya Felix',
+				'Adrienne Craft',
+				'Jimi Harwood',
+				'Prisha Douglas',
+			];
+
+			var targetExample = { lName: 'Silva', fName: 'Bruce' };
+			var testPerson = mapPerson('Bruce Silva');
+			var newLongName = longName.map(mapPerson);
+
+			function mapPerson(aName) {
+				let result = {};
+				const nameParts = aName.split(' ');
+				result.lName = nameParts[0];
+				result.fName = nameParts[1];
+				return result;
+			}
+		</script>
+	</body>
+</html>

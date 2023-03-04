@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Guess The Number</title>
+	</head>
+	<body>
+		<!-- HTML for the game's structure -->
+		<div id="game-container">
+			<h1>Guess the Number</h1>
+			<p>Guess a number between 1 and 10</p>
+			<input id="guess-input" type="number" min="1" max="10" />
+			<button id="guess-button">Guess</button>
+			<p id="result"></p>
+		</div>
+
+		<!-- CSS for the game's styling -->
+		<style>
+			#game-container {
+				text-align: center;
+				width: 500px;
+				margin: auto;
+			}
+			#guess-input {
+				width: 50px;
+			}
+			#result {
+				font-weight: bold;
+			}
+		</style>
+
+		<!-- JavaScript for the game's logic -->
+		<script>
+			//generate a random number between 1 and 10
+			const randomNumber = Math.floor(Math.random() * 10) + 1;
+			//get a reference to the guess button and the result paragraph
+			const guessButton = document.querySelector('#guess-button');
+			const resultParagraph = document.querySelector('#result');
+			//add an event listener to the guess button
+			guessButton.addEventListener('click', function () {
+				//get the user's guess
+				const guessInput = document.querySelector('#guess-input');
+				const guess = parseInt(guessInput.value);
+				//compare the user's guess to the random number
+				if (guess === randomNumber) {
+					//display a message if the user wins
+					resultParagraph.textContent = 'You win!';
+				} else {
+					//display a message if the user loses
+					resultParagraph.textContent =
+						'You lose! The correct number was ' + randomNumber;
+				}
+			});
+		</script>
+	</body>
+</html>

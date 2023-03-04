@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Rendering People - Display</title>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<script src="peopleService.js"></script>
+		<style></style>
+	</head>
+
+	<body>
+		<div class="container people">
+			<div class="row"></div>
+		</div>
+		<div id="template">
+			<div class="card" style="width: 18rem">
+				<img class="card-img-top" src="..." alt="Card image cap" />
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<p class="card-text">
+						Some quick example text to build on the card title and make up the
+						bulk of the card's content.
+					</p>
+					<a href="#" class="btn btn-primary">Go somewhere</a>
+				</div>
+			</div>
+		</div>
+		<script id="myCode">
+			function startUp() {
+				peopleService
+					.getPage(0, 10)
+					.then(onGetPeopleSuccess)
+					.catch(onGetPeopleError);
+			}
+
+			function getTemplate() {
+				var template = $('#template').html();
+				var cloneOne = $(template).clone();
+				return $(cloneOne);
+			}
+
+			renderPeople = (people) => {
+				// render an array of people to the page
+				people.forEach((person) => {
+					let template = getTemplate();
+					template.find('.card-title').text(person.name);
+					template.find('.card-text').text(person.bio);
+					template.find('img').attr('src', person.image);
+					$('.people .row').append(template);
+				});
+			};
+
+			onGetPeopleSuccess = (response) => {
+				console.log({ response });
+				renderPeople(response.data.item.pagedItems);
+			};
+
+			onGetPeopleError = (err) => {
+				console.error(err);
+			};
+		</script>
+	</body>
+</html>

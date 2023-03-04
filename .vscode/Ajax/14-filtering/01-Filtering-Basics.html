@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Filtering Basics</title>
+		<style>
+			footer {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<main
+			role="main"
+			class="graph-container align-middle d-flex justify-content-center"
+			style="height: 100%"
+			id="objGraph"
+		></main>
+		<script id="candidateCode">
+			var ages = [20, 80, 65, 15, 43, 21, 30, 22, 44, 18, 31, 89];
+
+			var filteredAges = ages.filter(filterAge);
+
+			function filterAge(age) {
+				let result = false;
+				//is the result going to be changed to true
+				if (age < 40) {
+					result = true;
+				}
+				return result;
+			}
+
+			var names = [
+				'Aled Ratcliffe',
+				'Cassie Gibbons',
+				'Ephraim Holman',
+				'Asim Ayala',
+				'Johnny Villegas',
+				'Kanye Bond',
+				'Leoni Akhtar',
+				'Duane Velasquez',
+				'Elana Stark',
+				'Gracie-Leigh Hutchings',
+			];
+
+			var filteredName = names.filter(filterName);
+
+			function filterName(name) {
+				let result = false;
+				let lower = name.toLowerCase();
+				if (lower.indexOf('k') >= 0) {
+					result = true;
+				}
+				return result;
+			}
+
+			var longName = [
+				'Mari David',
+				'Bruce Silva',
+				'Rowena Dowling',
+				'Nicolle Marquez',
+				'Jaidon Kidd',
+				'Alicia Huff',
+				'Yahya Felix',
+				'Adrienne Craft',
+				'Jimi Harwood',
+				'Prisha Douglas',
+			];
+		</script>
+	</body>
+</html>

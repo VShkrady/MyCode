@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function startUp() {
+				console.log('start Up is firing');
+				let testData = {
+					email: 'jack123@yahoo.com',
+					password: '12345',
+					hasAccepted: true,
+				};
+				writeFormData(testData);
+			}
+
+			function getFormData() {
+				var data = {
+					email: $('#exampleInputEmail').val(),
+					password: $('#exampleInputPassword').val(),
+					hasAccepted: $('#exampleCheck1').prop('checked'),
+				};
+				return data;
+			}
+			// in the console you can check for the bug thru 'debugForms()'';
+			function writeFormData(frmData) {
+				console.log(frmData);
+				//frmData = frmData || {};
+				if (!frmData) {
+					return;
+				}
+				$('#exampleInputEmail').val(frmData.email);
+				$('#exampleInputPassword').val(frmData.password);
+				if (fmrData.hasAccepted) {
+					$('#exampleCheck1').prop('checked', true);
+				}
+			}
+			function clearForm(frmId) {
+				//would write the jQuery function to clear form if needed;
+			}
+		</script>
+	</body>
+</html>

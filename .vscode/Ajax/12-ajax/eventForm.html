@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Event Form</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+    <script src="eventsService.js"></script>
+  </head>
+  <body style="background-color: #b1cee5">
+    <form class="form-horizontal">
+      <fieldset>
+        <!-- Form Name -->
+        <legend>Event Form</legend>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="eventName">Name</label>
+          <div class="col-md-4">
+            <input
+              id="eventName"
+              name="eventName"
+              type="text"
+              placeholder="Event Name"
+              class="form-control input-md"
+            />
+          </div>
+        </div>
+
+         <!-- Textarea -->
+         <div class="form-group">
+            <label class="col-md-4 control-label" for="headline"
+              >Headline</label
+            >
+            <div class="col-md-4">
+              <textarea
+                class="form-control"
+                id="headline"
+                name="headline"
+              ></textarea>
+            </div>
+          </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="description"
+            >Description</label
+          >
+          <div class="col-md-4">
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+            ></textarea>
+          </div>
+        </div>
+
+         <!-- Textarea -->
+         <div class="form-group">
+            <label class="col-md-4 control-label" for="summary"
+              >Summary</label
+            >
+            <div class="col-md-4">
+              <textarea
+                class="form-control"
+                id="summary"
+                name="summary"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="slug"
+              >Slug</label
+            >
+            <div class="col-md-4">
+              <textarea
+                class="form-control"
+                id="slug"
+                name="slug"
+              ></textarea>
+            </div>
+          </div>
+
+       
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="textInput1"
+            >Start Date</label
+          >
+          <div class="col-md-4">
+            <input
+              id="textInput1"
+              name="textInput1"
+              type="text"
+              placeholder="Start Date"
+              class="form-control input-md"
+            />
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="textInput2">End Date</label>
+          <div class="col-md-4">
+            <input
+              id="textInput2"
+              name="textInput2"
+              type="text"
+              placeholder="End Date"
+              class="form-control input-md"
+            />
+          </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="address"
+            >Address</label
+          >
+          <div class="col-md-4">
+            <textarea
+              class="form-control"
+              id="address"
+              name="address"
+            ></textarea>
+          </div>
+        </div>
+
+         <!-- Textarea -->
+         <div class="form-group">
+            <label class="col-md-4 control-label" for="zipCode"
+              >Zip Code</label
+            >
+            <div class="col-md-4">
+              <textarea
+                class="form-control"
+                id="zipCode"
+                name="zipCode"
+              ></textarea>
+            </div>
+          </div>
+<div class="form-group">
+         <div class="col-md-4">
+            <div class="checkbox">
+              <label for="checkbox">
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value="1"
+                />
+                Active
+              </label>
+            </div>
+             </div>
+          </div>
+        </div>
+      </fieldset>
+      <div class="form-group d-none">
+        <label for="id">id</label>
+        <input type="text" class="form-control" id="id" name="id" />
+      </div>
+      <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+    </div>
+    </form>
+    <script>
+      function startUp(){
+        wireUpHandlers()
+        //to check if form for creating or updating a record
+          var updateSlug = window.location.hash.split("#")[1];
+       console.log(updateSlug, "slug");
+       //if an id is present in url pre-populate the form with existing data
+       if(updateSlug){
+        eventsService.getBySlug(updateSlug).then(onGetEventsBySlugSuccess).catch(onGetEventsBySlugError);
+       }
+      }
+
+      var onGetEventsBySlugSuccess = (response) =>{
+      console.log(response);
+        var data = response.data.item;
+        //populates the form
+        $("#eventName").val(data.name);
+         $("#headline").val(data.headline);
+         $("#description").val(data.description);
+        $("#summary").val(data.summary);
+        $("#slug").val(data.slug);
+        $("#id").val(data.id);
+         $("#textInput1").val(data.metaData.dateStart);
+         $("#textInput2").val(data.metaData.dateEnd);
+         $("#address").val(data.metaData.location.address);
+         $("#zipCode").val(data.metaData.location.zipCode);
+        $("#checkbox").val(data.statusId);
+         
+         }
+
+    var onGetEventsBySlugError= (error) => {
+          console.error({ error })};
+
+
+    function wireUpHandlers (){
+          // event listeners
+          $("#submit").on("click", formSubmit)};
+
+
+     function formSubmit(event){
+        console.log("event is firing");
+        event.preventDefault();
+        //gather form data
+        var formData = getFormData();
+        var updateSlug = window.location.hash.split("#")[1];
+        var updateId = formData.id;
+          console.log("Update is firing");
+        if (!updateSlug) {
+            console.log("New Form");
+            eventsService
+              .add(formData)
+              .then(onAddEventSuccess)
+              .catch(onAddEventError);
+            } else {
+             console.log("Update");
+            eventsService
+              .update(updateId, formData)
+              .then(onUpdateEventSuccess)
+              .catch(onUpdateEventError);
+          }}
+
+      
+
+       //retrieves values from the form and stores it in the formData
+       function getFormData (){
+        console.log("getFormData is firing");
+        var formData = {};
+        formData.metaData = {};
+        formData.metaData.location= {};
+        
+        formData.name = $("#eventName").val();
+        console.log("event value: ",$("#eventName").val());
+        formData.headline = $("#headline").val();
+        formData.description = $("#description").val();
+        formData.summary = $("#summary").val();
+        formData.slug = $("#slug").val();
+        formData.id = $("#id").val();
+        formData.metaData.dateStart = $("#textInput1").val();
+        formData.metaData.dateEnd = $("#textInput2").val();
+        formData.metaData.location.address = $("#address").val();
+        formData.metaData.location.zipCode = $("#zipCode").val();
+        formData.statusId = $("#checkbox").val();
+     
+        return formData;
+      }
+
+    //success handle if database request passed
+    var onAddEventSuccess = (response) => {
+          console.log(response);
+          toastr.success("Record added successfully"); 
+        };
+
+        //error handle if database request fails.
+        var onAddEventError = (error) => {
+          console.error({ error });
+          toastr.error("Error adding record. Please try again.");
+        };
+
+      var onUpdateEventSuccess = (response) =>{
+        console.log(response);
+      }
+      var onUpdateEventError = (error) => {
+          console.error({ error });
+        };
+    </script>
+  </body>
+</html>

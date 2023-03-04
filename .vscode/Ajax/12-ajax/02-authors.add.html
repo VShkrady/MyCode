@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Authors Add Ajax</title>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<style></style>
+	</head>
+
+	<body class="myCode">
+		<script id="myCode">
+			var addAuthor = () => {
+				var payload = {
+					firstName: 'Bobby',
+					lastName: 'Smith',
+					age: 35,
+					salary: 100000,
+				};
+
+				const config = {
+					method: 'POST',
+					url: 'https://api.remotebootcamp.dev/api/authors',
+					data: payload,
+					crossdomain: true,
+					headers: { 'Content-Type': 'application/json' },
+				};
+
+				return axios(config)
+					.then(function (response) {
+						console.log(response);
+					})
+					.catch(function (response) {
+						console.error(response);
+					});
+			};
+		</script>
+	</body>
+</html>

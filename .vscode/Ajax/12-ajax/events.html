@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Events List</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="eventsService.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap"></script>
+    <style>
+      .container {
+        display: flex;
+        background: #b1cee5;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .container-left {
+        width: 500vw;
+        height: 200vh;
+        background: #b1cee5;
+        margin-right: 80px;
+        /* display: flex;
+        flex-direction: column;
+        align-items: flex-start; */
+      }
+
+      .container-right {
+        width: 50vw;
+        height: 100vh;
+        background: #b1cee5;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .event-left-title {
+        width: 30vw;
+        height: 10vh;
+        background: #b1cee5;
+      }
+
+      .event-left-image-container {
+        width: 50vw;
+        height: 84vh;
+      }
+      .event-left-content {
+        width: 30vw;
+        height: 10vh;
+        background: #b1cee5;
+      }
+      .event-left-description {
+        width: 30vw;
+        height: 25vh;
+        background: #b1cee5;
+      }
+
+    .event-left-location {
+        width: 30vw;
+        height: 10vh;
+        background:  #b1cee5;
+    }
+    </style>
+  </head>
+  <body style="background-color: #b1cee5">
+    
+   <div class="container">
+   
+    <div id="events-view">
+    <div class="container-left">
+      <div class="container-left-content-body">
+        <div class="event-left-title">
+         Concert
+        </div>
+        <div class="event-left-image-container">
+          <img src="https://media.istockphoto.com/id/622293502/photo/grand-central-terminal-with-traffic-new-york-city.jpg?s=612x612&w=0&k=20&c=SUbJTzrrlFvuh76MUvGg7D-TIXJZUrk4K9BB2436jDY=" alt="Grand Central">
+        </div>
+        <div class="event-left-content">
+           Concert at Grand Central Station
+        </div>
+        <div class="event-left-description">
+       This event let you listen good music, helps you to relax and enjoy time. It's always fun to be around people and have a good vibes.
+       You can smile, dance, sing along with everybody else. We glad tha you made to this event and hopefully you will enjoy it.
+        </div>
+        <div class="event-left-location">
+          Grand Central Station
+         </div>
+         <div class="mapView">
+          <div id="map" style="width: 510px; height: 200px;"></div> 
+         </div>
+         </div>
+      </div>
+      <div class="container-right">
+      <form class="form-inline justify-content-end">
+          <div class="form-group mb-2">
+            <label for="start" class="sr-only">Start Date:</label>
+            <input type="date" class="form-control" id="start" />
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="end" class="sr-only">End Date:</label>
+            <input type="date" class="form-control" id="end" />
+          </div>
+          <button
+            type="button"
+            class="btn btn-outline-success my-2 my-sm-0"
+            id="searchBtn"
+          >
+            Search
+          </button>
+          <div class="card" style=" width: 20rem; height: 10rem;">
+            <div class="card text-center h-100" slug="0">
+              <div class="card-body event-content">
+              <button type="button" class="btn btn-warning newEventBtn"  data-slug=`${oneEvent.slug}` data-bs-toggle="modal" data-bs-target="#addEventModal">New Event</button>
+              <button type="button" class="btn btn-primary tab-btn viewAllBtn"data-toggle="modal" data-target="#viewAllEventModal" id="map-tab" data-slug=`${oneEvent.slug}`>View All On Map</button>
+            <div
+                class="modal fade"
+                id="viewAllEventModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="viewAllEventModal"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="viewAllEventModalHeader">All Events</h5>
+                    </div>
+                    <div class="modal-body">
+                   
+                      <div id="map2" style="height: 200px;"></div> 
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             
+           </div>
+              </div>
+            </form>
+      <div class="clone-container"></div>
+        <template id="card-template" type="text/template">
+              <div class="card1 right-card" style=" width: 20rem; height: 20rem;">
+                <div class="card text-center h-100" slug="0">
+                <div class="card-body event-content">
+                  <h6 class="event-name">Headline</h6>
+                  <h6 class="event-id d-none">231651681</h6>
+                  <h5 class="event-title">Card title</h5>
+                  <h6 class="event-date">Date</h6>
+                  <p class="card-text event-description">
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </p>
+                  <button type="button" class="btn btn-warning editBtn"  data-id=`${oneEvent.id}` data-bs-toggle="modal" data-bs-target="#editEventModal">Edit</button>
+                  <button type="button" class="btn btn-primary viewMoreBtn" data-slug=`${oneEvent.slug}`>View More</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal Edit -->
+    <div
+      class="modal fade"
+      id="editEventModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editEventModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editEventModal">Edit Event</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="updateEventBtn">
+              Update Event
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Modal Add -->
+     <div
+      class="modal fade"
+      id="addEventModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="addEventModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addEventModal">Add Event</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+             <form>
+                <fieldset>
+                  <!-- Form Name -->
+                  <legend>Event Form</legend>
+          
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="control-label" for="eventName">Name</label>
+                    <div class="">
+                      <input
+                        id="eventName"
+                        name="eventName"
+                        type="text"
+                        placeholder="Event Name"
+                        class="form-control input-md"
+                      />
+                    </div>
+                  </div>
+          
+                   <!-- Textarea -->
+                   <div class="form-group">
+                      <label class="control-label" for="headline"
+                        >Headline</label
+                      >
+                      <div class="">
+                        <textarea
+                          class="form-control"
+                          id="headline"
+                          name="headline"
+                        ></textarea>
+                      </div>
+                    </div>
+          
+                  <!-- Textarea -->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="description"
+                      >Description</label
+                    >
+                    <div class="">
+                      <textarea
+                        class="form-control"
+                        id="description"
+                        name="description"
+                      ></textarea>
+                    </div>
+                  </div>
+          
+                   <!-- Textarea -->
+                   <div class="form-group">
+                      <label class=" control-label" for="summary"
+                        >Summary</label
+                      >
+                      <div class="">
+                        <textarea
+                          class="form-control"
+                          id="summary"
+                          name="summary"
+                        ></textarea>
+                      </div>
+                    </div>
+          
+                    <div class="form-group">
+                      <label class="control-label" for="slug"
+                        >Slug</label
+                      >
+                      <div class="">
+                        <textarea
+                          class="form-control"
+                          id="slug"
+                          name="slug"
+                        ></textarea>
+                      </div>
+                    </div>
+           <!-- Text input-->
+                  <div class="form-group">
+                    <label class="control-label" for="textInput1"
+                      >Start Date</label
+                    >
+                    <div class="">
+                      <input
+                        id="textInput1"
+                        name="textInput1"
+                        type="text"
+                        placeholder="Start Date"
+                        class="form-control input-md"
+                      />
+                    </div>
+                  </div>
+          
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="control-label" for="textInput2">End Date</label>
+                    <div class="">
+                      <input
+                        id="textInput2"
+                        name="textInput2"
+                        type="text"
+                        placeholder="End Date"
+                        class="form-control input-md"
+                      />
+                    </div>
+                  </div>
+          
+                  <!-- Textarea -->
+                  <div class="form-group">
+                    <label class="control-label" for="address"
+                      >Address</label
+                    >
+                    <div class="">
+                      <textarea
+                        class="form-control"
+                        id="address"
+                        name="address"
+                      ></textarea>
+                    </div>
+                  </div>
+          
+                   <!-- Textarea -->
+                   <div class="form-group">
+                      <label class="control-label" for="zipCode"
+                        >Zip Code</label
+                      >
+                      <div class="">
+                        <textarea
+                          class="form-control"
+                          id="zipCode"
+                          name="zipCode"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group d-none">
+                      <label class="control-label" for="metaData"
+                        >Meta Data</label>
+                        <div class="">
+                        <textarea
+                          class="form-control"
+                          id="metaData"
+                          name="metaData"
+                        >
+                    </textarea>
+                      </div>
+                    </div>
+          <div class="form-group">
+                   <div class="">
+                      <div class="checkbox">
+                        <label for="checkbox">
+                          <input
+                            type="checkbox"
+                            name="checkbox"
+                            id="checkbox"
+                            value="1"
+                          />
+                          Active
+                        </label>
+                      </div>
+                       </div>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="form-group d-none">
+                  <label for="id">id</label>
+                  <input type="text" class="form-control" id="id" name="id" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+              </div>
+              </form>
+            </button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="card-center-display"></div>
+    <script>
+      function startUp() {
+        loadEvents();
+        wireUpHandlers();
+      }
+
+      function loadEvents() {
+        eventsService
+          .paginatedFeeds()
+          .then(onGetEventsSuccess)
+          .catch(onGetEventsError);
+        console.log("loadEvents is firing");
+      }
+
+      function onGetEventsSuccess(response) {
+        console.log(response);
+        console.log("thisssssss", response.data.item["090_Weekday"]);
+        var arrayOfEvents = response.data.item["090_Weekday"];
+        createRightCards(arrayOfEvents);
+        populateleftSide(arrayOfEvents[0]);
+      }
+   
+      function populateleftSide(eventData) {
+        console.log("this is eventData:", eventData);
+      //populate the left card
+       let template = getTemplate2();
+      template.find(".event-left-title").text(eventData.name);
+      template.find(".event-left-content").text(eventData.content);
+      template.find(".event-left-description").text(eventData.description);
+      template.find(".event-left-location").text(eventData.metaData.location.address);
+     
+        let location = {
+            lat: eventData.metaData.location.latitude,
+            lng: eventData.metaData.location.longitude,
+             };
+
+          initMap(location); 
+          $(".clone-container2").append(template);
+      };
+
+      function onGetEventsError(error) {
+        console.log(error);
+      }
+
+      function wireUpHandlers() {
+        $(".clone-container").on("click", ".viewMoreBtn", viewData);
+        $(".clone-container").on("click", ".editBtn", btnEdit);
+        $(".clone-container").on("click", ".newEventBtn", addEvent);
+        $("#submitBtn").on("click", onSubmitBtn);
+        $("#searchBtn").on("click", onSearchByDates);
+      }
+
+      function viewAllOnMap(e){
+        console.log("View all")
+        $(".tab-btn").removeClass("active");
+        $(e.currentTarget).addClass("active");
+      };
+
+      function onSearchByDates(e) {
+        e.preventDefault();
+
+        //get the search query from the search box
+        let dateStart = moment($("#start").val(), "YYYY/MM/DD").format(
+          "YYYY/MM/DD"
+        );
+        let dateEnd = moment($("#end").val(), "YYYY/MM/DD").format(
+          "YYYY/MM/DD"
+        );
+        eventsService
+          .search(dateStart, dateEnd)
+          .then(onSearchSuccess)
+          .catch(onSearchError);
+        console.log("Firing search" + dateStart + dateEnd);
+      }
+
+      //success if request passed
+      var onSearchSuccess = (data) => {
+        console.log("Search Result", data);
+        createRightCards(data.data.item.pagedItems);
+      };
+
+      var onSearchError = (error) => {
+        console.error({ error });
+      };
+
+      
+
+      //creates a clone of the template and returns it
+      function getTemplate() {
+        //get the template
+        var template = $("#card-template").html();
+        //create a copy of the template
+        var clone = $(template).clone();
+        console.log("this is clone", clone);
+        return clone;
+      }
+
+      function getTemplate2() {
+        //get the template
+        var template = $("#card-template2").html();
+        //create a copy of the template
+        var clone = $(template).clone();
+        console.log("this is clone", clone);
+        return clone;
+      }
+      
+      function createRightCards(arrayOfEvents) {
+        console.log("other log", arrayOfEvents);
+        var newCreateCards = arrayOfEvents.map(mapEvent);
+        function mapEvent(oneEvent, index) {
+          console.log("this", oneEvent);
+          let template = getTemplate();
+          template.find(".event-name").text(oneEvent.headline);
+          template.find(".event-title").text(oneEvent.name);
+          template.find(".event-content").text(oneEvent.content);
+          template.find(".card").attr("slug", oneEvent.slug);
+          template.find(".event-description").text(oneEvent.description);
+          template.find(".event-date").text(oneEvent.metaData.dateStart);
+          template.find(".editBtn").attr("data-id", oneEvent.id);
+          template.find(".viewMoreBtn").attr("data-slug", oneEvent.slug);
+
+          // add the template to the DOM
+          $(".clone-container").append(template);
+        }
+      }
+
+
+      function viewData(e) {
+       e.preventDefault();
+        var slug = $(this).data("slug");
+        viewEvent(slug);
+      }
+
+      function btnEdit() {
+        let eventSlug = $(this).closest(".card").attr("slug");
+        console.log(eventSlug);
+
+        $("#editEventModal")
+          .find(".modal-body")
+          .text((window.location.href = "eventForm.html?#" + eventSlug));
+      }
+
+      function addEvent() {
+        let eventSlug = $(this).closest(".card").attr("slug")
+      }
+
+      function viewEvent(slug) {
+        console.log("this is viewEvent by Slug");
+        eventsService
+          .getBySlug(slug)
+          .then(onGetBySlugSuccess)
+          .catch(onGetBySlugError);
+        console.log(slug);
+      }
+
+      function onGetBySlugSuccess(response) {
+        console.log("GetBySlug response:", response);
+       //rendering the card on the left when "view more" button clicked
+        $(".event-left-description").text(response.data.item.description);
+        $(".event-left-title").text(response.data.item.name);
+        $(".event-left-content").text(response.data.item.summary);
+        $(".event-left-location").text(response.data.item.metaData.location.address);
+      }
+
+      function onGetBySlugError(error) {
+        console.log(error);
+      }
+ 
+
+    function onSubmitBtn(e){
+     e.preventDefault();
+     var formData = getFormData();
+     console.log("onSubmitBtn:", formData);
+     eventsService.add(formData).then(onAddEventsSuccess).catch(onAddEventsError);
+          }
+
+       //retrieves values from the form and stores it in the formData
+       function getFormData (){
+        console.log("getFormData is firing");
+        var formData = {};
+        formData.metaData = {};
+        formData.metaData.location = {};
+        formData.name = $("#eventName").val();
+        formData.headline = $("#headline").val();
+        formData.description = $("#description").val();
+        formData.summary = $("#summary").val();
+        formData.slug = $("#slug").val();
+        formData.statusId = $("#checkbox").val();
+        formData.id = $("#id").val();
+        formData.metaData.dateStart = $("#textInput1").val();
+        formData.metaData.dateEnd = $("#textInput2").val();
+        formData.metaData.location.address = $("#address").val();
+        formData.metaData.location.zipCode = $("#zipCode").val();
+        formData.metaData.location.latitude = $("#latitude").val();
+        formData.metaData.location.longitude = $("#longitude").val();
+
+        return formData;
+      }
+
+      function onAddEventsSuccess(formData){
+       console.log("addEventSuccess:", formData);
+          toastr.success("Record added successfully"); 
+        };
+
+        //error handle if database request fails.
+        var onAddEventsError = (error) => {
+          console.error({ error });
+          toastr.error("Error adding record. Please try again.");
+        };
+      
+
+      function initMap(location) {
+        console.log("this is location:", location);
+        var place = { lat: location.lat, lng: location.lng };
+      var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 8,
+          center: place,
+        });
+        var modalMap = new google.maps.Map(document.getElementById("map2"), {
+          zoom: 8,
+          center: place,
+        });
+        var marker = new google.maps.Marker({ position: place, map: map });
+  
+      }
+      </script>
+  </body>
+</html>

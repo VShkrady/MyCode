@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mapping Basics Exercises</title>
+		<style>
+			footer {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<main
+			role="main"
+			class="graph-container align-middle d-flex justify-content-center"
+			style="height: 100%"
+			id="objGraph"
+		></main>
+		<script id="myCode">
+			var getNumberAr = function () {
+				let result = [1, 2, 3, 4, 5];
+				return result;
+			};
+
+			var numbers = getNumberAr();
+
+			var addZeros = function (nums) {
+				function mapNumber(num) {
+					return '000' + num.toString();
+				}
+				var newNumbers = nums.map(mapNumber);
+				return newNumbers;
+			};
+			var result = addZeros(numbers);
+			var getPeople = function () {
+				let personObj = [
+					{
+						id: 123,
+						name: 'Jack',
+					},
+					{
+						id: 456,
+						name: 'John',
+					},
+					{
+						id: 789,
+						name: 'Sue',
+					},
+				];
+				return personObj;
+			};
+			var companyPeople = getPeople();
+
+			var getNames = function (peopleAr) {
+				function mapName(personObj) {
+					return personObj.name;
+				}
+				var newPeople = peopleAr.map(mapName);
+				return newPeople;
+			};
+
+			var companyNames = getNames(companyPeople);
+		</script>
+	</body>
+</html>

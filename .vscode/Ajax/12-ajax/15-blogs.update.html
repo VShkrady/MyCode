@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Blogs Update Ajax</title>
+		<script src="https://unpkg.com/axios@0.25/dist/axios.js"></script>
+		<script src="usersService.js"></script>
+		<script src="blogsService.js"></script>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			var testLoginPayload = {
+				firstName: 'userFirstName',
+				lastName: 'userLastName',
+				age: 30,
+				salary: 200000,
+			};
+			function executeCalls() {
+				blogsService
+					.update()
+					.then(
+						(onUpdateSuccess = () => {
+							console.log({ item: response.data.items });
+						})
+					)
+
+					.catch(
+						(onUpdateError = () => {
+							console.error({ error });
+						})
+					);
+			}
+
+			var blogId = 1860403353;
+			var authorId = 1200597383;
+
+			blogsService.update = (id, payload) => {
+				const config = {
+					method: 'PUT',
+					url: 'https://api.remotebootcamp.dev/api/blogs/1860403353',
+					data: payload,
+					crossdomain: true,
+					headers: { 'Content-Type': 'application/json' },
+				};
+				var payload = {
+					id: 1860403353,
+					authorId: 1200597383,
+					title: 'Hello',
+					content: 'Comedy',
+				};
+
+				var id = 1860403353;
+				return axios(config);
+			};
+		</script>
+	</body>
+</html>

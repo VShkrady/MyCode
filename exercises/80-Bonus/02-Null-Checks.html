@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Null Checks And Inspecting Parameters</title>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			function captureArguments(alpha, second, gamma) {
+				if (!alpha && !second && !gamma) {
+					return 'Nothing Passed';
+				} else if (alpha === second && second === gamma) {
+					return 'All The Same';
+				} else if (alpha && second && gamma) {
+					return {
+						first: alpha,
+						second: second,
+						third: gamma,
+					};
+				} else if (alpha) {
+					if (alpha.nested) {
+						return alpha.nested;
+					}
+					return alpha;
+				} else if (second) {
+					if (second.nested === 'Pick Me') {
+						return second.nested;
+					} else if (second.nested && second.goal) {
+						return second.goal;
+					}
+					return second;
+				} else if (gamma) {
+					return gamma;
+				}
+			}
+			var captureNumbers = function (age, countOfPets, weight) {
+				// Initialize the object with default values of 0
+				var result = {
+					strings: 0,
+					numbers: 0,
+				};
+
+				// Check the type of each argument and increment the appropriate property in the result object
+				if (typeof age === 'string') {
+					result.strings++;
+				} else if (typeof age === 'number') {
+					result.numbers++;
+				}
+
+				if (typeof countOfPets === 'string') {
+					result.strings++;
+				} else if (typeof countOfPets === 'number') {
+					result.numbers++;
+				}
+
+				if (typeof weight === 'string') {
+					result.strings++;
+				} else if (typeof weight === 'number') {
+					result.numbers++;
+				}
+
+				// If all three arguments are numbers, return the string "Three Numbers"
+				if (result.numbers === 3) {
+					return 'Three Numbers';
+				}
+
+				// Otherwise, return the result object
+				return result;
+			};
+		</script>
+	</body>
+</html>

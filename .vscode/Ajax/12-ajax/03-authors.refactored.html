@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="https://unpkg.com/axios@0.25/dist/axios.js"></script>
+		<script src="usersService.js"></script>
+		<script src="authorsService.js"></script>
+		<style></style>
+	</head>
+
+	<body>
+		<script id="myCode">
+			var testLoginPayload = {
+				firstName: 'userFirstName',
+				lastName: 'userLastName',
+				age: 30,
+				salary: 200000,
+			};
+			function startUp() {
+				var newAuthor = {
+					firstName: 'Bobby',
+					lastName: 'Smith',
+					age: 35,
+					salary: 100000,
+				};
+				authorsService
+					.getAll()
+					.then(onGetAuthorsSuccess)
+					.catch(onGetAuthorsError);
+
+				var payload = {
+					firstName: 'Jackie',
+					lastName: 'Chan',
+					age: 30,
+					salary: 200000,
+				};
+
+				authorsService
+					.add(newAuthor)
+					.then(onAddAuthorSuccess)
+					.catch(onAddAuthorError);
+			}
+
+			var onAddAuthorSuccess = (response) => {
+				console.log({ authorId: response.data.item });
+			};
+
+			var onAddAuthorError = (error) => {
+				console.error({ error });
+			};
+
+			var onGetAuthorsSuccess = (response) => {
+				console.log({ authors: response.data.items });
+			};
+
+			var onGetAuthorsError = (error) => {
+				console.error({ error });
+			};
+		</script>
+	</body>
+</html>

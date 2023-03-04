@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Friends</title>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+			integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+			crossorigin="anonymous"
+		/>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<script src="friendsService.js"></script>
+	</head>
+	<body style="background-color: #b1cee5">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">Friends</a>
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-toggle="collapse"
+				data-target="#navbarNav"
+				aria-controls="navbarNav"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<button type="button" class="btn btn-primary nav-link">
+							+ Friend
+						</button>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0 ml-auto">
+					<input
+						class="form-control mr-sm-2"
+						type="text"
+						placeholder="Search friends"
+						aria-label="search"
+						name="search"
+						id="search"
+					/>
+					<button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn">
+						Search
+					</button>
+				</form>
+			</div>
+		</nav>
+		<div id="card-template" class="container mt-5 d-none">
+			<div class="row">
+				<div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+					<div class="card" id="0">
+						<img
+							src="#"
+							id="imageUrl"
+							class="card-img-top"
+							alt="Friend's Name"
+						/>
+						<div class="card-body">
+							<h5 class="card-title" id="friendName"></h5>
+							<p class="card-text" id="friendSummary"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clone-container"></div>
+		<script>
+			function startUp() {
+				wireUpHandlers();
+				getFriends();
+			}
+
+			//get (paginated) method shows all friends from the dattabase and passess them to createCards function
+			function getFriends() {
+				friendsService
+					.paginated()
+					.then(onGetFriendsSuccess)
+					.catch(onGetFriendsError);
+			}
+
+			//success handle if database request passed
+			function onGetFriendsSuccess(response) {
+				console.log('test');
+				console.log(response);
+				//clear the current list of friends
+				$('.clone-container').empty();
+				//map the serch results to the page
+				createCards(response.data.item.pagedItems);
+			}
+
+			//error handle if database request fails.
+			var onGetFriendsError = (error) => {
+				console.error(error);
+			};
+
+			function wireUpHandlers() {
+				$('#searchBtn').on('click', onSearchBtnClick);
+			}
+
+			function onSearchBtnClick(e) {
+				e.preventDefault();
+
+				//get the search query from the search box
+				let query = $('#search').val();
+				searchFriends(query);
+				console.log('Firing search', query);
+			}
+
+			//creates a clone of the template and returns it
+			function getTemplate() {
+				//get the template
+				var template = $('#card-template').html();
+				//create a copy of the template
+				var clone = $(template).clone();
+				return clone;
+			}
+
+			//using map method creates a template for each friend
+			function createCards(friends) {
+				console.log(friends);
+				function mapFriend(friend) {
+					console.log('mapping is executing');
+
+					let template = getTemplate();
+					template.find('#friendName').text(friend.title);
+					template.find('#friendSummary').text(friend.summary);
+					template.find('#imageUrl').attr('src', friend.primaryImage.imageUrl);
+					template.find('.card').attr('id', friend.id);
+					const deleteButton = $('<button>')
+						.attr('type', 'button')
+						.addClass('btn btn-danger')
+						.attr('data-id', friend.id)
+						.text('Delete');
+
+					const editButton = $('<button>')
+						.attr('type', 'button')
+						.addClass('btn btn-warning')
+						.attr('data-id', friend.id)
+						.text('Edit');
+
+					// add the buttons to the template
+					template.find('.card-body').append(deleteButton, editButton);
+
+					//event listeners for the delete and edit buttons
+					deleteButton.on('click', deleteData);
+					editButton.on('click', editData);
+					// add the template to the DOM
+					$('.clone-container').append(template);
+				}
+				var newCreateCards = friends.map(mapFriend);
+			}
+
+			//'this' selects the element that triggered an event and retrieves the value of "data-id" attribute
+			function deleteData() {
+				let friendId = $(this).attr('data-id');
+				friendsService
+					.deleteById(friendId)
+					.then(onDeleteFriendsSuccess)
+					.catch(onDeleteFriendsError);
+				//removes it from the server and the DOM
+				$(this).closest('.card').remove();
+			}
+
+			//delete handle success deletes from the DOM
+			var onDeleteFriendsSuccess = (id) => {
+				console.log(id, 'onDeleteFriendsSuccess');
+			};
+
+			var onDeleteFriendsError = (error) => {
+				console.error(error);
+			};
+
+			//get entity from the database
+			function editData() {
+				console.log('Update is executing');
+				let friendId = $(this).closest('.card').attr('id'); // (".card")
+				console.log(friendId);
+				$('#friendName').val(
+					$(this).closest('#card-template').find('.card-title').text()
+				); //$("#friendName").val (
+				//$(this).closest(".card").find(".card-title").text())
+				$('#id').val($(this).attr('data-id'));
+				$('#friendSummary').val(
+					$(this).closest('#card-template').find('.card-text').text()
+				);
+				$('#imageUrl').val(
+					$(this).closest('#card-template').find('img').attr('src')
+				);
+				window.location.href = 'viewPage.html?#' + friendId;
+			}
+
+			//search for friends based on the search query
+			function searchFriends(query) {
+				console.log('search is firing');
+
+				friendsService.search(query).then(onSearchSuccess).catch(onSearchError);
+			}
+
+			//success if request passed
+			var onSearchSuccess = (response) => {
+				console.log('Search Result = >', { response });
+				//clear the current list of friends
+				$('.clone-container').empty();
+				//map the search results to the page
+				createCards(response.data.item.pagedItems);
+			};
+
+			var onSearchError = (error) => {
+				console.error({ error });
+			};
+		</script>
+	</body>
+</html>

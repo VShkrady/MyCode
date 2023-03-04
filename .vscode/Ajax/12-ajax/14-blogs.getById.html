@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Blogs Get By Id Ajax</title>
+		<script src="https://unpkg.com/axios@0.25/dist/axios.js"></script>
+		<script src="usersService.js"></script>
+		<script src="blogsService.js"></script>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			var blogId = 1860403353;
+			var testLoginPayload = {
+				firstName: 'userFirstName',
+				lastName: 'userLastName',
+				age: 30,
+				salary: 200000,
+			};
+			function executeCalls() {
+				blogsService
+					.getById(blogId)
+					.then(
+						(onGetBlogIdSuccess = () => {
+							console.log({ item: response.data.items });
+						})
+					)
+
+					.catch(
+						(onGetBlogIdError = () => {
+							console.error({ error });
+						})
+					);
+			}
+		</script>
+	</body>
+</html>

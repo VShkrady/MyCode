@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Entities - Service</title>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<script src="../12-ajax/entitiesService.js"></script>
+		<style></style>
+	</head>
+	<body>
+		<script id="myCode">
+			function startUp() {
+				entitiesService.add(payload).then(onAddSuccess).catch(onAddError);
+				entitiesService
+					.update(id, payload)
+					.then(onUpdateSuccess)
+					.catch(onUpdateError);
+			}
+
+			function onAddSuccess(response) {
+				console.log(response);
+			}
+
+			var onAddError = (err) => {
+				console.error(err);
+			};
+
+			var onUpdateSuccess = () => {
+				console.log({ item: response.data.items });
+			};
+
+			var onUpdateError = () => {
+				console.error({ error });
+			};
+		</script>
+	</body>
+</html>

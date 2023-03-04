@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>View Page</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+    <script src="friendsService.js"></script>
+  </head>
+  <body style="background-color: #b1cee5">
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="homepage.html">Home</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class= " collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">People</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Blogs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tech Co.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Events</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" id="loginNav" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="logoutNav"  href="#">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="registerNav" href="#">Register</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    My Code
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </li>
+            </ul>
+    
+        </div>
+    </nav>
+    <form
+      id="formId"
+      action="/api/entities/teams"
+      method="post"
+      class="container mt-5" 
+    >
+      <div class="container">
+         <h3 for="card-tittle">Add or Edit Friend</h3>
+         <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputTitle">Title</label>
+            <input type="text" class="form-control" name="Title" id="inputTitle" />
+          </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputBio">Bio</label>
+              <input type="text" class="form-control" name="Bio" id="inputBio" />
+            </div>
+            </div>
+            <div class="form-row">
+             <div class="form-group col-md-6">
+                  <label for="inputSummary">Summary</label>
+                  <input type="text" class="form-control" name="Summary" id="inputSummary" />
+             </div>
+            </div> 
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputHeadline">Headline</label>
+            <input type="text" class="form-control" name="Headline" id="inputHeadline" />
+          </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputSlug">Slug</label>
+            <input type="text" class="form-control" name="Slug" id="inputSlug" />
+          </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputStatus">Status</label>
+              <input type="text" class="form-control" name="Status" id="inputStatus" />
+            </div>
+          </div>
+            <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputSkills">Skills</label>
+              <input
+                type="text"
+                class="form-control"
+                name="Skills"
+                id="inputSkills"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputAvatarUrl">Primary Image</label>
+            <input type="text" class="form-control" name="imageUrl" id="inputAvatarUrl" />
+          </div>
+          </div>
+          <div class="form-group d-none">
+            <label for="id">id</label>
+            <input type="text" class="form-control" id="id" name="id" />
+          </div>
+          <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+    <div class="clone-container">
+      <div class="row"></div>
+    </div>
+      
+      <script id="template" type="text/template">
+        <div class="card card-team" id="0" style="width: 18rem">
+          <img class="card-img-top" src="..." alt="Card image cap"/>
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h6 class="card-subti">Card title</h6>
+            <p class="card-text">
+              Write your own text
+            </p>
+    
+      
+            <a href="#" class="btn btn-primary d-none">Template</a>
+          </div>
+        </div>
+      </script>
+    <script>
+       function startUp() {
+        wireUpHandlers()
+        var updateId = window.location.hash.split("#")[1];
+       console.log(updateId, "id")
+       setFriendData(updateId)}
+           
+
+       function setFriendData(id){
+        friendsService.getById(id).then(onGetFriendsIdSuccess).catch(onGetFriendsIdError);
+       }
+
+
+        var onGetFriendsIdSuccess = (response) =>{
+          console.log (response, "response");
+          let friendData = response.data.item;
+
+          writeFormData(response)
+        }
+        
+       var onGetFriendsIdError = (error) =>{
+        console.log(error);
+       }
+       function writeFormData(response) {
+        
+       $("#inputTitle").val(response.data.item.title);
+        $("#inputBio").val(response.data.item.bio);
+        $("#inputSummary").val(response.data.item.summary);
+        $("#inputHeadline").val(response.data.item.headline)
+        $("#inputSlug").val(response.data.item.slug)
+        $("#inputStatus").val(response.data.item.statusId)
+        $("#inputSkills").val(response.data.item.skills)
+        $("#inputAvatarUrl").val(response.data.item.primaryImage.imageUrl);
+        $("#id").val(response.data.item.id);
+        }
+        
+          function wireUpHandlers (){
+          // event listeners
+          $("#submit").on("click", createSubmit)
+         }
+        
+         //prevents page from refreshing, takes submit form data and add's form data to database
+         function createSubmit(event) {
+        console.log("event is firing");
+        event.preventDefault();
+        //get the form element and pass it to the formData
+         var formData = getFormData();
+         var updateId = window.location.hash.split("#")[1];
+          console.log("UpdateId is "+updateId);
+        if (updateId) {
+            console.log("Update");
+            friendsService
+              .update(updateId, formData)
+              .then(onUpdateFriendsSuccess)
+              .catch(onUpdateFriendsError);
+          
+          } else {
+            console.log("New Form");
+            friendsService
+              .add(formData)
+              .then(onAddFriendsSuccess)
+              .catch(onAddFriendsError);
+          
+          }}
+
+          //success handle if database request passed
+        var onAddFriendsSuccess = (response) => {
+          console.log(response);
+        };
+
+        //error handle if database request fails.
+        var onAddFriendsError = (error) => {
+          console.error({ error });
+        };
+
+      var onUpdateFriendsSuccess = (response) =>{
+        console.log(response);
+      }
+      var onUpdateFriendsError = (error) => {
+          console.error({ error });
+        };
+
+         //retrieves values from the form and stores it in the formData
+      function getFormData (){
+        console.log("getFormData is firing");
+        var formData = {}
+        formData.title = $("#inputTitle").val();
+        formData.bio = $("#inputBio").val();
+        formData.summary = $("#inputSummary").val();
+        formData.headline = $("#inputHeadline").val();
+        formData.slug = $("#inputSlug").val();
+        formData.status = $("#inputStatus").val();
+        formData.skills = $("#inputSkills").val();
+        formData.primaryImage = $("#inputAvatarUrl").val();
+        formData.id = $("#id").val();
+        return formData;
+      }
+      </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Rendering People - Service</title>
+		<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+		<script src="peopleService.js"></script>
+		<style></style>
+	</head>
+
+	<body>
+		<script id="myCode">
+			function startUp() {
+				peopleService
+					.getPage()
+					.then(
+						(onGetPageSuccess = () => {
+							console.log({ item: response.data.items });
+						})
+					)
+					.catch(
+						(onGetPageError = () => {
+							console.error({ error });
+						})
+					);
+			}
+		</script>
+	</body>
+</html>

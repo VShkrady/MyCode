@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Templating 101</title>
+		<style></style>
+	</head>
+	<body>
+		<div class="container workspace">
+			<div class="row">
+				<div class="col-md-5">
+					<section id="templateOne">
+						<p class="my-3 t-1">Content in Template 1</p>
+					</section>
+					<section id="templateTwo">
+						<div class="row my-3 t-2">
+							<div class="col-md-12">
+								<span>Content in Template 2</span>
+							</div>
+						</div>
+					</section>
+					<section id="templateThree">
+						<div class="row my-3 t-3">
+							<div class="col-md-12 mb-4">
+								<div class="card border-0 shadow">
+									<img
+										src="https://i.pravatar.cc/400?img=48"
+										class="card-img-top"
+										alt="..."
+									/>
+									<div class="card-body text-center">
+										<h5 class="card-title mb-0">Content in Template 3</h5>
+										<div class="card-text text-black-50">
+											Content in Template 3
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="col-md-2">
+					<div class="row my-3">
+						<button type="button" class="btn btn-primary clone-1">
+							Clone 1
+						</button>
+					</div>
+					<div class="row my-3">
+						<button type="button" class="btn btn-primary clone-2">
+							Clone 2
+						</button>
+					</div>
+					<div class="row my-3">
+						<button type="button" class="btn btn-primary clone-3">
+							Clone 3
+						</button>
+					</div>
+					<div class="row my-3">
+						<button type="button" class="btn btn-primary clear">Clear</button>
+					</div>
+					<div class="row my-3">
+						<button type="button" class="btn btn-primary clone-change">
+							Clone & Change
+						</button>
+					</div>
+				</div>
+				<div class="col-md-5 clone-container"></div>
+			</div>
+		</div>
+		<script id="myCode">
+			function startUp() {
+				wireUpButtons();
+			}
+
+			function wireUpButtons() {
+				// Set up click handlers for the clone buttons
+
+				$('.clone-1').on('click', onCloneTemplateOne);
+				$('.clone-2').on('click', onCloneTemplateTwo);
+				$('.clone-3').on('click', onCloneTemplateThree);
+
+				$('.clear').click(function () {
+					// Empty the contents of the .clone-container element
+					$('.clone-container').empty();
+				});
+				$('.clone-change').click(copyClone);
+			}
+
+			// Clone #templateOne and add it to the DOM
+			function onCloneTemplateOne() {
+				var template = $('#templateOne').html();
+				var cloneOne = $(template).clone();
+				addCloneToDom(cloneOne);
+			}
+
+			function onCloneTemplateTwo() {
+				// Clone #templateTwo and add it to the DOM
+
+				var template = $('#templateTwo').html();
+				var cloneTwo = $(template).clone();
+				addCloneToDom(cloneTwo);
+			}
+
+			function onCloneTemplateThree() {
+				// Clone #templateThree and add it to the DOM
+
+				var template = $('#templateThree').html();
+				var cloneThree = $(template).clone();
+				addCloneToDom(cloneThree);
+			}
+
+			function getTemplate() {
+				// Return a clone of #templateThree
+				return $($('#templateThree').html()).clone();
+			}
+
+			function addCloneToDom(jqClone) {
+				// Add the clone to the end of the .clone-container element
+				$('.clone-container').append(jqClone);
+			}
+
+			function changeCloneContent(jqClone) {
+				// Change the content within the jqClone parameter
+				jqClone.find('img').attr('src', 'https://shutr.bz/3FNllYx');
+				jqClone.find('.card-text').html('New text');
+				jqClone.find('.card-title').html('New title');
+			}
+
+			var copyClone = function () {
+				// Create a new clone, change its content, and add it to the DOM
+				var clone = getTemplate();
+				changeCloneContent(clone);
+				addCloneToDom(clone);
+				// Append the template to the .clone-container element
+				$('.clone-container').append(clone);
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Object Graph Viewer</title>
+<style>
+        aside.offsidebar {
+            display: none !important;
+        }
+
+        svg {
+            border: solid
+        }
+    </style>
+    <!-- #endregion -->
+</head>
+    <main role="main" class="graph-container align-middle d-flex justify-content-center" style="height:100%"
+        id="objGraph">
+</main>
+    <script id="myCode">
+
+        var state = {
+            firstName: "Mickey"
+            , lastName: "Mouse",
+            friends: ["Minnie", "Pluto"]
+            , age: 80
+        }
+
+        var firstPass = state;
+        var secondPass, thirdPass, forthPass
+
+        function cycleTwo()
+        {
+            secondPass = state
+            renderObjects({ firstPass, secondPass, thirdPass, forthPass })
+        }
+
+        function cycleThree()
+        {
+            thirdPass = { ...state }
+            thirdPass.firstName = "Michael"
+
+            renderObjects({ firstPass, secondPass, thirdPass, forthPass })
+        }
+    </script>
+</body>
+</html>

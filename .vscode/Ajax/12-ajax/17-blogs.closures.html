@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Closures In Ajax</title>
+		<script src="https://unpkg.com/axios@0.25/dist/axios.js"></script>
+		<script src="usersService.js"></script>
+		<script src="blogsService.js"></script>
+		<style></style>
+	</head>
+
+	<body>
+		<script id="myCode">
+			var blogId = 1860403353;
+			function executeCalls() {
+				blogsService
+					.deleteById(blogId)
+					.then(
+						(onDeleteSuccess = (blogId) => {
+							console.log(blogId, 'onDeleteSuccess');
+						})
+					)
+
+					.catch(
+						(onDeleteError = (error) => {
+							console.warn(error, 'onDeleteError');
+						})
+					);
+			}
+
+			blogsService.deleteById = (id) => {
+				const config = {
+					method: 'DELETE',
+					url: 'https://api.remotebootcamp.dev/api/blogs/${id}',
+					crossdomain: true,
+					headers: { 'Content-Type': 'application/json' },
+				};
+
+				return axios(config).then((response) => {
+					return id;
+				});
+			};
+		</script>
+	</body>
+</html>

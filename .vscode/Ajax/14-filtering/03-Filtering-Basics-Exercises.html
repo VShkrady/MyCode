@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Filtering Basics Exercises</title>
+		<style>
+			footer {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<main
+			role="main"
+			class="graph-container align-middle d-flex justify-content-center"
+			style="height: 100%"
+			id="objGraph"
+		></main>
+
+		<script id="myCode">
+			var getAges = function () {
+				let ages = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+				return ages;
+			};
+			var ages = getAges();
+
+			var getAdults = function (peopleAges) {
+				function filteredAge(peopleAge) {
+					let result = false;
+					if (peopleAge >= 18) {
+						return true;
+					}
+
+					return result;
+				}
+				var newPeopleAges = peopleAges.filter(filteredAge);
+				return newPeopleAges;
+			};
+
+			var allTheAges = getAdults(ages);
+
+			var getNames = function () {
+				let names = [
+					'John Ratcliffe',
+					'Cassie Gibbons',
+					'Ephraim Holman',
+					'Asim Ayala',
+					'Johnny Villegas',
+					'Kanye Bond',
+					'Leoni Akhtar',
+					'Duane Velasquez',
+					'Elana Stark',
+					'Gracie-Leigh Hutchings',
+				];
+				return names;
+			};
+			var fullNames = getNames();
+
+			var searchFirstNames = function (namesAr, nameQuery) {
+				function filteredName(name) {
+					let result = false;
+					let fName = name.split(' ')[0];
+					if (fName === nameQuery) {
+						return true;
+					}
+					return result;
+				}
+				var newNames = namesAr.filter(filteredName);
+				return newNames;
+			};
+
+			var allTheNames = searchFirstNames(fullNames);
+
+			var getEmployees = function () {
+				return [
+					{
+						id: 123,
+						name: 'John Smith',
+						department: 'Sales',
+					},
+					{
+						id: 456,
+						name: 'Sue Smith',
+						department: 'IT',
+					},
+					{
+						id: 765,
+						name: 'Brian Chan',
+						department: 'HR',
+					},
+					{
+						id: 543,
+						name: 'Johnny Black',
+						department: 'Customer Support',
+					},
+					{
+						id: 234,
+						name: 'Jackie Chan',
+						department: 'Sales',
+					},
+				];
+			};
+			var employees = getEmployees();
+
+			var searchByDepartment = function (employeeAr, department) {
+				function filteredEmployee(employee) {
+					let result = false;
+					if (employee.department === department) {
+						return true;
+					}
+
+					return result;
+				}
+				var newEmployees = employeeAr.filter(filteredEmployee);
+				return newEmployees;
+			};
+			var companyOp = searchByDepartment(employees, 'Sales');
+		</script>
+	</body>
+</html>

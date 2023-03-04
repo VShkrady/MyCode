@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Filtering Objects</title>
+		<style>
+			footer {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<main
+			role="main"
+			class="graph-container align-middle d-flex justify-content-center"
+			style="height: 100%"
+			id="objGraph"
+		></main>
+		<script id="myCode">
+			var prices = [
+				{
+					cost: 87,
+				},
+				{
+					cost: 67,
+				},
+				{
+					cost: 41,
+				},
+				{
+					cost: 18,
+				},
+				{
+					cost: 93,
+				},
+			];
+
+			var people = [
+				{
+					id: 1,
+					fName: 'Barbie',
+					lName: 'Ismay',
+					email: 'bismay0@ezinearticles.com',
+					age: 86,
+				},
+				{
+					id: 2,
+					fName: 'Winthrop',
+					lName: 'Erbe',
+					email: 'werbe1@reuters.com',
+					age: 63,
+				},
+				{
+					id: 3,
+					fName: 'Cori',
+					lName: 'MacGettigen',
+					email: 'cmacgettigen2@virginia.edu',
+					age: 57,
+				},
+				{
+					id: 4,
+					fName: 'Robyn',
+					lName: 'Stannering',
+					email: 'rstannering3@gnu.org',
+					age: 68,
+				},
+				{
+					id: 5,
+					fName: 'Kile',
+					lName: 'Iannini',
+					email: 'kiannini4@yale.edu',
+					age: 22,
+				},
+			];
+			var newPeople = people.map(mapThisPerson);
+
+			//using mapping function as an example which we using in filter method
+			var filteredPeople = newPeople.filter(filterPerson);
+
+			function filterPerson(person) {
+				let result = false;
+				if ((result = person.isOver21 === true)) {
+					const dName = person.displayName
+						? person.displayName.toUpperCase()
+						: '';
+					if (dname.indexOf('G') >= 0) {
+						result = true;
+					}
+				}
+
+				return result;
+			}
+
+			var companies = [
+				{
+					desc: 'Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.',
+					domain: 'newyorker.com',
+					industry: 'Transportation',
+					co: 'Muxo',
+					est: '11/01/2018',
+					revenue: 325504,
+				},
+				{
+					desc: 'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.',
+					domain: 'unicef.org',
+					industry: 'Technology',
+					co: 'Mita',
+					est: '03/30/2019',
+					revenue: 658198,
+				},
+				{
+					desc: 'Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst.',
+					domain: 'linkedin.com',
+					industry: 'n/a',
+					co: 'Brainsphere',
+					est: '08/27/2019',
+					revenue: 763581,
+				},
+				{
+					desc: 'Donec vitae nisi.',
+					domain: 'cloudflare.com',
+					industry: 'n/a',
+					co: 'Roomm',
+					est: '04/25/2019',
+					revenue: 393149,
+				},
+				{
+					desc: 'Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.',
+					domain: 'intel.com',
+					industry: 'Consumer Services',
+					co: 'Dazzlesphere',
+					est: '05/26/2019',
+					revenue: 976377,
+				},
+			];
+		</script>
+	</body>
+</html>
